@@ -1,25 +1,33 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
-  // your code here
-  const taskForm = document.getElementById('create-task-form');
-  const taskInput = document.getElementById('new-task-description');
-  const taskList = document.getElementById('tasks');
-  const taskPriority = document.getElementById('task-priority');
 
-  taskForm.addEventListener('submit', (event) => {
-    event.preventDefault(); 
+  document.getElementById('create-task-form').addEventListener('submit', function (event) {
+    event.preventDefault(); //prevent reload
+    
+    const taskInput = document.getElementById('new-task-description');
+    const taskText = taskInput.value.trim(); //Trim input just incase of whitespaces
 
-    const taskDescription = taskInput.value.trim();
+    if (taskText === '') return; //Avoiding blank to do's...even though  I added the required feature
 
-    if (taskDescription !== '') {
-      const listItem = document.createElement('li');
-      listItem.textContent = taskDescription;
-      listItem.classList.add(taskPriority.value);
-      taskList.appendChild(listItem);
-      taskInput.value = ''; //clear input field
+    // Create list item (to add content to the list)
+    const li = document.createElement('li');
+    li.textContent = taskText;
+    li.classList.add('p-2', 'mt-2');
 
-      listItem.addEventListener('click', () => {
-        listItem.remove();
-      });    
-    }
+    // Create Remove Button
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove';
+    removeButton.classList.add('p-2', 'btn', 'btn-danger','mx-5');
+
+    // Append the removing  button to list item
+    li.appendChild(removeButton);
+    document.getElementById('tasks').appendChild(li);
+
+    // Attach event to remove only the clicked item by listening to event click !
+    removeButton.addEventListener('click', () => li.remove());
+
+    // Clear input field for input
+    taskInput.value = '';
   });
 });
